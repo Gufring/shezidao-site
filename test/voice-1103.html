@@ -1,0 +1,66 @@
+<!doctype html><html lang="zh-Hant"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex"></head><body><title>晨報語音試播 11/03</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* 單欄手機優先：播放器卡在上，段落清單在下 */
+:root{--bg:#f6f7fb;--card:#ffffff;--fg:#1d2036;--muted:#5d6280;--navy:#2D348E;--orange:#E28235;--green:#41904E;--line:#dde0ee;
+--sans:"Noto Sans TC",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12142a;--card:#1b1e3a;--fg:#eceefa;--muted:#a6abc9;--navy:#8f97f0;--orange:#f0a060;--green:#6cc07a;--line:#2e3258;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12142a;--card:#1b1e3a;--fg:#eceefa;--muted:#a6abc9;--navy:#8f97f0;--orange:#f0a060;--green:#6cc07a;--line:#2e3258;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.7}
+.wrap{max-width:640px;margin:0 auto;padding-block:20px 40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:16px}
+h1{font-size:1.5rem;margin:0;color:var(--navy);text-wrap:balance}
+.sub{color:var(--muted);margin:0;font-size:.95rem}
+.player{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px}
+.btns{display:flex;flex-wrap:wrap;gap:10px}
+button{font:inherit;font-weight:700;border-radius:10px;padding:12px 18px;cursor:pointer;border:2px solid var(--navy);background:transparent;color:var(--navy)}
+button.main{background:var(--navy);color:var(--card);font-size:1.1rem;flex:1 1 200px}
+button:focus-visible{outline:3px solid var(--orange);outline-offset:2px}
+label{color:var(--muted);font-size:.95rem;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+input[type=range]{flex:1 1 160px;accent-color:var(--orange)}
+.status{font-size:.95rem;color:var(--muted);min-height:1.5em}
+.status b{color:var(--green)}
+ol{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+li{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer}
+li.on{border-color:var(--orange);box-shadow:0 0 0 2px var(--orange) inset}
+li h2{font-size:1.05rem;margin:0 0 4px;color:var(--navy)}
+li p{margin:0;color:var(--muted);font-size:.95rem;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.note{font-size:.9rem;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+</style>
+<div class="wrap">
+  <h1>社子島財經房市晨報・語音試播</h1>
+  <p class="sub">2026/11/03（二）｜約 7 分鐘｜用手機內建的中文語音朗讀</p>
+  <section class="player" aria-label="播放器">
+    <div class="btns">
+      <button id="play" class="main" type="button">▶ 收聽今日晨報</button>
+      <button id="pause" type="button">暫停</button>
+      <button id="stop" type="button">停止</button>
+    </div>
+    <label for="rate">語速 <input id="rate" type="range" min="0.7" max="1.4" step="0.1" value="1"> <span id="rateV">1.0</span></label>
+    <div class="status" id="status" aria-live="polite">頁面載入中…（若一直停在這裡，表示這個 App 內的瀏覽器擋住了程式，請改用 Chrome 或 Safari 開啟）</div>
+  </section>
+  <ol id="list"></ol>
+  <p class="note">點任一段可以從那一段開始聽。聲音由手機或電腦內建的語音產生，不同手機聽起來會不一樣。若在 LINE 裡按了沒有聲音，請點右上角「…」改用 Chrome 或 Safari 開啟，並確認手機沒有開靜音。</p>
+</div>
+<script>
+window.onerror=function(m){var s=document.getElementById("status");if(s)s.textContent="程式錯誤："+m+"（請截圖給我們）";};
+const SEGS=[{"t": "開場", "x": "早安，這裡是社子島地產。今天是11月3日，星期二，為您播報社子島財經房市晨報。"}, {"t": "潮汐表", "x": "先看今天的潮汐表。給地主：空地想租人做停車場，先查使用分區能不能這樣用；租約寫清楚「遇徵收即終止」、承租人不得蓋建物，補償的事就少一半麻煩。給買方：10月六都買賣移轉年增3.4%，前十月由負轉正；台北市年增9.2%，但比9月少了一成，買氣是慢慢回來，不是一下子湧回。給投資人：台股失守45,000點，外資連三賣；台幣盤中貶破32.7，央行出手。今晚看蘋果財報與美國期中選舉。"}, {"t": "晨潮", "x": "晨潮。空地租人做停車場，徵收時會吃虧嗎？ 昨天阿公在淡水河邊問我們：「前幾工有人來問，欲共這塊地租去做停車場。地租予人，敢會影響以後區段徵收的補償？租約欲按怎寫，才袂予家己麻煩？」今天週二，我們就從這塊空地聊起。先說結論：出租本身，不會讓地價補償變少。區段徵收的地價，依《土地徵收條例》第30條按徵收當期的市價計算，看的是土地本身，不是誰在用它；地主想領抵價地，也是以土地所有權人的身分申請。換句話說，地租出去，地還是您的，權利不會因為一張租約就換人。真正會惹麻煩的，是地上多出來的東西。承租人若鋪了柏油、搭了車棚、裝了收費機，這些地上物屬於誰、補償給誰、徵收時誰負責拆，租約沒寫，就容易各說各話。而且徵收公告之後，依同條例第35條，土地上不得再新建、增建，也不能變更地形；社子島許多土地還在限制發展的狀態，連「能不能做停車場」本身，都要先查使用分區、看是否需要申請臨時使用，否則被裁罰的可能是地主。所以租約我們建議至少寫清楚五件事：用途只做平面停車場、不得興建任何建物；租期短一點，一年一約；土地遇徵收、重劃或政府通知時，契約當然終止，承租人不得請求補償；地上物由承租人自行拆除、回復原狀；不得轉租。另外要避免寫成耕作用的租約，耕地租約在徵收時另有分配補償的規定，和停車場是兩回事。實際適用以地政局與法院見解為準，簽約前歡迎拿來給我們看一遍。市場這頭，十月六都買賣移轉年增3.4%，前十月由負轉正，買氣是慢慢回來；台股則失守45,000點，外資連三賣，台幣盤中貶破32.7。租補、地價稅與徵收補償救濟的相關報導，都整理在「稅務與法律實務」裡，往下滑就能看到。"}, {"t": "今日新聞", "x": "今天的新聞，各類重點如下。主商圈：社子島・北士科・關渡洲美平原：社子島這兩天沒有新的審議進度，附上內政部審議的回顧；北士科帶動北投預售量連兩年居北市第一。台北市：有人提議大台北行政區以淡水河為界重劃，社子島正好在河的這一邊。市地重劃・區段徵收：台南永大重劃計畫核定；嘉義市說明地主負擔不一定是45%。房市走向：10月六都移轉年增3.4%、前十月由負轉正；台北市年增9.2%，但比9月少了一成。土地・產業用地：台南標售地籍清理土地47標，11月19日開標。都更・老屋：內政部老宅延壽修繕補助，金門11/4起受理。稅務與法律實務：地要出租、遇到徵收補償有爭議，該注意什麼？今天〈晨潮〉回答阿公，租賃與徵收的相關報導在這裡。高齡與人口：以房養老新增件數放緩；長輩住進養老院，家人的陪伴怎麼安排。今日財經大事：台股失守45,000點、外資連三賣；台幣盤中貶破32.7，央行出手。完整新聞標題與連結，請看晨報網頁。"}, {"t": "阿公講古", "x": "阿公講古。週二早上，阿公沿著基隆河走，河面平平的，對岸北士科的工地吊車已經轉起來，幾隻白鷺鷥站在水邊，一動也不動。「原來租約寫予清楚，就毋驚。」他點點頭：「早前阮庄頭嘛有人把地租予人放砂石，後來欲收轉來，吵到村長出面。紙寫予明，人情才袂歹。」他說年輕時，基隆河還沒截彎取直，河道彎彎曲曲，大水一來，田就泡在水裡好幾天。「彼陣仔，阮看天食飯；這馬，阮看公文食飯。」說完自己笑了起來。走到堤防的轉角，他從口袋拿出一張通知單：「里長講，以後區段徵收，會分抵價地予阮。毋過阮有好幾个兄弟仔共有這塊地，抵價地是逐家分開領，抑是愛做伙領？若是兄弟意見無仝，欲按怎？」阿公的問題，我們明天回答。"}, {"t": "廟口泡茶區", "x": "廟口泡茶區。阿公講完古，從河邊走回廟口，榕樹下的茶已經泡好了。家裡的地要不要租、要怎麼租，都可以先坐下來慢慢說。土地出租，租金只是一半，另一半是租約：用途、期限、遇到徵收怎麼辦，我們陪您一條一條寫清楚。想問問您：您家的地或房子，有沒有出租過？最讓您頭痛的是租金、房客，還是租約？回覆告訴我們，下次泡茶時一起聊。不急著成交。我們是守在堤邊的人，守著每一塊土地的權益，直到把它交到願意耕耘它的人手上。社子島地產，電話 02 2810 8558。我們明天見。"}];
+const synth=window.speechSynthesis;const st=document.getElementById('status');const list=document.getElementById('list');
+let voice=null,idx=0,chunks=[],ci=0,playing=false,paused=false;
+SEGS.forEach((s,i)=>{const li=document.createElement('li');li.innerHTML='<h2></h2><p></p>';li.querySelector('h2').textContent=s.t;li.querySelector('p').textContent=s.x;li.onclick=()=>start(i);list.appendChild(li)});
+function pick(){if(!synth){st.textContent='這個瀏覽器不支援語音朗讀，請改用 Chrome 或 Safari。';return}
+ const vs=synth.getVoices();voice=vs.find(v=>/zh[-_]TW/i.test(v.lang))||vs.find(v=>/zh[-_]HK/i.test(v.lang))||vs.find(v=>/^zh/i.test(v.lang))||null;
+ st.innerHTML=voice?'找到中文語音：<b></b>':'沒有找到中文語音，會用預設聲音（可能念不準）。';if(voice)st.querySelector('b').textContent=voice.name+'（'+voice.lang+'）'}
+if(synth){pick();synth.onvoiceschanged=pick;setTimeout(pick,1500)}else{pick()}
+function split(t){return t.match(/[^。！？；]+[。！？；」]*/g)||[t]}
+function mark(){[...list.children].forEach((li,i)=>li.classList.toggle('on',i===idx&&playing))}
+function speakNext(){if(!playing)return;if(ci>=chunks.length){idx++;if(idx>=SEGS.length){playing=false;mark();st.textContent='播報完畢，謝謝收聽。';return}chunks=split(SEGS[idx].x);ci=0;mark()}
+ const u=new SpeechSynthesisUtterance(chunks[ci]);u.lang=voice?voice.lang:'zh-TW';if(voice)u.voice=voice;u.rate=+document.getElementById('rate').value;
+ u.onend=()=>{ci++;speakNext()};u.onerror=e=>{if(e.error!=='interrupted'&&e.error!=='canceled'){st.textContent='播放出錯（'+e.error+'），請改用 Chrome 或 Safari 開啟。';playing=false;mark()}};
+ synth.speak(u);st.textContent='正在播：'+SEGS[idx].t}
+function start(i){if(!synth)return;synth.cancel();idx=i;chunks=split(SEGS[i].x);ci=0;playing=true;paused=false;document.getElementById('pause').textContent='暫停';mark();setTimeout(speakNext,60)}
+document.getElementById('play').onclick=()=>start(0);
+document.getElementById('pause').onclick=e=>{if(!playing)return;if(paused){synth.resume();paused=false;e.target.textContent='暫停'}else{synth.pause();paused=true;e.target.textContent='繼續'}};
+document.getElementById('stop').onclick=()=>{playing=false;synth&&synth.cancel();mark();st.textContent='已停止。'};
+document.getElementById('rate').oninput=e=>document.getElementById('rateV').textContent=(+e.target.value).toFixed(1);
+</script>
+</body></html>
