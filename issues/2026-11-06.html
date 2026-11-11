@@ -104,6 +104,7 @@ footer.foot .lic { text-align:right; font-size:.6rem; }
 <p class="lede">今日 37 則財經與房市新聞，依主題分成 10 類，社子島、主商圈與台北市的新聞排在最前面。點標題就能開啟原文。</p></div>
 <div class="tools" role="toolbar" aria-label="閱讀與分享">
 <button class="btn primary" id="copyall" type="button">複製全文分享</button>
+<button class="btn toc-btn" id="tocbtn" type="button" aria-label="本期目錄" aria-expanded="false" aria-controls="tocpanel">☰ 目錄</button>
 <button class="btn" id="bigger" type="button" aria-label="字放大">字放大 A＋</button>
 <button class="btn" id="smaller" type="button" aria-label="字縮小">字縮小 A－</button>
 <span class="status" id="status" role="status" aria-live="polite"></span>
@@ -145,4 +146,38 @@ function copy(text, el) {
 document.getElementById('copyall').addEventListener('click', () => copy(SHARE, null));
 document.querySelectorAll('.copy').forEach(b => b.addEventListener('click', () => copy(b.dataset.copy, b)));
 </script>
+<style>
+.toc-btn{background:#2D348E!important;color:#fff!important;border-color:#2D348E!important}
+.tide,.views,.sec,.after,.ferry,.subbox{scroll-margin-top:5.5rem}
+.tocpanel{position:fixed;left:.75rem;right:.75rem;z-index:20;max-width:34rem;margin:0 auto;max-height:70vh;overflow:auto;background:#fff;border:2px solid #E28235;border-radius:.8rem;box-shadow:0 .6rem 1.6rem rgba(0,0,0,.18);padding:.6rem .9rem .8rem}
+.tocpanel[hidden]{display:none}
+.tocpanel .tp-k{margin:.2rem 0 .4rem;color:#E28235;font-weight:900;letter-spacing:.08em}
+.tocpanel ol{list-style:none;margin:0;padding:0}
+.tocpanel li a{display:flex;justify-content:space-between;gap:.6rem;padding:.65rem .2rem;border-top:1px solid #EEEFF6;color:#2D348E;font-weight:700;text-decoration:none;line-height:1.4}
+.tocpanel li a span{color:#666;font-weight:400;white-space:nowrap}
+@media print{.toc-btn,.tocpanel{display:none!important}}
+</style>
+<nav class="tocpanel" id="tocpanel" hidden aria-label="本期目錄"><p class="tp-k">本期目錄</p><ol id="tocl"></ol></nav>
+<script>(function(){
+var b=document.getElementById('tocbtn'),p=document.getElementById('tocpanel'),l=document.getElementById('tocl');if(!b||!p)return;
+var secs=document.querySelectorAll('section.tide,section.views,section.sec,section.after,section.ferry,section.subbox');
+secs.forEach(function(s,i){
+  if(!s.id)s.id='toc-'+i;
+  var name,cnt='';
+  if(s.classList.contains('sec')){var h=s.querySelector('h3');if(!h)return;var c=h.querySelector('.cnt');cnt=c?c.textContent:'';name=h.childNodes[0].textContent.trim();}
+  else if(s.classList.contains('subbox')){name='與我們聯絡';}
+  else{name='〈'+(s.getAttribute('aria-label')||'')+'〉';if(s.classList.contains('views')){var t=s.querySelector('h2,h3');if(t)name+=' '+t.textContent.trim();}}
+  var li=document.createElement('li'),a=document.createElement('a');a.href='#'+s.id;a.textContent=name;
+  if(cnt){var sp=document.createElement('span');sp.textContent=cnt;a.appendChild(sp);}
+  a.addEventListener('click',function(ev){ev.preventDefault();close();s.scrollIntoView({behavior:'smooth',block:'start'});});
+  li.appendChild(a);l.appendChild(li);
+});
+function place(){var t=b.closest('.tools')||b.parentNode;var r=t.getBoundingClientRect();p.style.top=Math.max(8,r.bottom+6)+'px';}
+function open(){place();p.hidden=false;b.setAttribute('aria-expanded','true');b.textContent='✕ 收起';}
+function close(){p.hidden=true;b.setAttribute('aria-expanded','false');b.textContent='☰ 目錄';}
+b.addEventListener('click',function(ev){ev.stopPropagation();p.hidden?open():close();});
+document.addEventListener('click',function(ev){if(!p.hidden&&!p.contains(ev.target))close();});
+document.addEventListener('keydown',function(ev){if(ev.key==='Escape')close();});
+window.addEventListener('scroll',function(){if(!p.hidden)place();},{passive:true});
+})();</script>
 </body></html>
