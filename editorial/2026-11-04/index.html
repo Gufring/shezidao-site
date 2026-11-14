@@ -166,15 +166,15 @@ document.getElementById('bigger').onclick=()=>{fs=Math.min(2,fs+1);applyFs()};
 document.getElementById('smaller').onclick=()=>{fs=Math.max(-1,fs-1);applyFs()};
 (function(){
 const b=document.getElementById('tocbtn'),p=document.getElementById('tocpanel'),l=document.getElementById('tocl');
-const items=[];
+function build(){l.innerHTML='';const items=[];
 document.querySelectorAll('.ed > h2').forEach(h=>items.push([h,h.textContent.trim(),0]));
 const src=document.querySelector('.src');if(src)items.push([src,'資料來源',0]);
 document.querySelectorAll('.ax').forEach(a=>{const h=a.querySelector('h3');if(h){const sp=h.querySelector('span');items.push([a,sp?sp.textContent.trim()+'　'+h.textContent.replace(sp.textContent,'').trim():h.textContent.trim(),1])}});
 items.forEach(([el,name,sub],i)=>{if(!el.id)el.id='toc-'+i;const li=document.createElement('li');if(sub)li.className='sub';
 const a=document.createElement('a');a.href='#'+el.id;a.textContent=name;
-a.addEventListener('click',ev=>{ev.preventDefault();close();el.scrollIntoView({behavior:'smooth',block:'start'})});li.appendChild(a);l.appendChild(li)});
+a.addEventListener('click',ev=>{ev.preventDefault();close();el.scrollIntoView({behavior:'smooth',block:'start'})});li.appendChild(a);l.appendChild(li)});}
 function place(){const r=b.closest('.tools').getBoundingClientRect();p.style.top=Math.max(8,r.bottom+6)+'px'}
-function open(){place();p.hidden=false;b.setAttribute('aria-expanded','true');b.textContent='✕ 收起'}
+function open(){build();place();p.hidden=false;b.setAttribute('aria-expanded','true');b.textContent='✕ 收起'}
 function close(){p.hidden=true;b.setAttribute('aria-expanded','false');b.textContent='☰ 目錄'}
 b.addEventListener('click',ev=>{ev.stopPropagation();p.hidden?open():close()});
 document.addEventListener('click',ev=>{if(!p.hidden&&!p.contains(ev.target))close()});
