@@ -1,0 +1,47 @@
+name: release-scheduled-editorial
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: release-scheduled
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: site
+      - name: checkout staged branch (if any)
+        run: |
+          if git -C site ls-remote --exit-code --heads origin staged >/dev/null 2>&1; then
+            git clone --depth 1 --branch staged "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}" staged
+          else
+            mkdir staged
+          fi
+      - name: release due items
+        id: rel
+        run: |
+          out=$(python3 site/.github/scripts/release_scheduled.py site staged | tail -1)
+          echo "$out"
+          echo "out=$out" >> "$GITHUB_OUTPUT"
+      - name: commit main
+        if: ${{ !startsWith(steps.rel.outputs.out, 'released=0') }}
+        run: |
+          cd site
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add -A
+          git commit -m "自動上線待發社論：${{ steps.rel.outputs.out }}" || exit 0
+          git push origin main
+      - name: clean staged branch
+        if: ${{ !startsWith(steps.rel.outputs.out, 'released=0') && hashFiles('staged/.git/HEAD') != '' }}
+        run: |
+          cd staged
+          git config user.name "Claude"; git config user.email "noreply@anthropic.com"
+          git add -A
+          git commit -m "清除已上線待發檔" || exit 0
+          git push origin staged
